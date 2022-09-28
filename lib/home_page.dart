@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:simple_app/video_info.dart';
 import 'colors.dart' as color;
 
 class HomePage extends StatefulWidget {
@@ -13,14 +16,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List info = [];
+
   _initData() {
-    DefaultAssetBundle.of(context).loadString('json/info.json').then((value) {
+    DefaultAssetBundle.of(context).loadString("json/info.json").then((value) {
       info = json.decode(value);
     });
   }
 
   @override
-  void initState() {}
+  void initState() {
+    super.initState();
+    _initData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,8 +97,13 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                   width: 7,
                 ),
-                Icon(Icons.arrow_forward,
-                    size: 20, color: color.AppColor.homePageIcons)
+                InkWell(
+                  onTap: () {
+                    Get.to(() => VideoInfo());
+                  },
+                  child: Icon(Icons.arrow_forward,
+                      size: 20, color: color.AppColor.homePageIcons),
+                )
               ],
             ),
             SizedBox(
@@ -315,52 +327,109 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             Expanded(
-              child: ListView.builder(
-                  itemCount: 4,
-                  itemBuilder: (_, i) {
-                    return Row(
-                      children: [
-                        Container(
-                          width: 200,
-                          height: 170,
-                          padding: EdgeInsets.only(bottom: 5),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15),
-                            image: DecorationImage(
-                              image: AssetImage('assets/ex1.png'),
+              child: OverflowBox(
+                maxWidth: MediaQuery.of(context).size.width,
+                child: ListView.builder(
+                    itemCount: (info.length.toDouble() / 2).toInt(),
+                    itemBuilder: (_, i) {
+                      int a = 2 * i;
+                      int b = 2 * i + 1;
+                      return Row(
+                        children: [
+                          Container(
+                            width: (MediaQuery.of(context).size.width - 90) / 2,
+                            height: 170,
+                            margin: EdgeInsets.only(
+                              left: 30,
+                              bottom: 10,
+                              top: 20,
                             ),
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 3,
-                                offset: Offset(5, 5),
-                                color: color.AppColor.gradientSecond
-                                    .withOpacity(0.1),
+                            padding: EdgeInsets.only(bottom: 5),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                              image: DecorationImage(
+                                image: AssetImage(
+                                  info[a]['img'],
+                                ),
                               ),
-                              BoxShadow(
-                                blurRadius: 3,
-                                offset: Offset(-5, -5),
-                                color: color.AppColor.gradientSecond
-                                    .withOpacity(0.1),
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Text(
-                                'glues',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: color.AppColor.homePageDetail,
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 3,
+                                  offset: Offset(5, 5),
+                                  color: color.AppColor.gradientSecond
+                                      .withOpacity(0.1),
+                                ),
+                                BoxShadow(
+                                  blurRadius: 3,
+                                  offset: Offset(-5, -5),
+                                  color: color.AppColor.gradientSecond
+                                      .withOpacity(0.1),
+                                ),
+                              ],
+                            ),
+                            child: Center(
+                              child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Text(
+                                  info[a]['title'],
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: color.AppColor.homePageDetail,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    );
-                  }),
+                          Container(
+                            width: (MediaQuery.of(context).size.width - 90) / 2,
+                            height: 170,
+                            margin: EdgeInsets.only(
+                              left: 30,
+                              bottom: 10,
+                              top: 20,
+                            ),
+                            padding: EdgeInsets.only(bottom: 5),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                              image: DecorationImage(
+                                image: AssetImage(
+                                  info[b]['img'],
+                                ),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 3,
+                                  offset: Offset(5, 5),
+                                  color: color.AppColor.gradientSecond
+                                      .withOpacity(0.1),
+                                ),
+                                BoxShadow(
+                                  blurRadius: 3,
+                                  offset: Offset(-5, -5),
+                                  color: color.AppColor.gradientSecond
+                                      .withOpacity(0.1),
+                                ),
+                              ],
+                            ),
+                            child: Center(
+                              child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Text(
+                                  info[b]['title'],
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: color.AppColor.homePageDetail,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
+              ),
             ),
           ],
         ),

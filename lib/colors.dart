@@ -14,7 +14,7 @@ class AppColor {
   static Color secondPageTopIconColor = const Color(0xFFb7bce8);
   static Color secondPageTitleColor = const Color(0xFFfefeff);
   static Color secondPageContainerGradient1stColor =
-      Color.fromARGB(148, 8, 82, 210);
+      Color.fromARGB(147, 225, 232, 244);
   static Color secondPageContainerGradient2stColor =
       Color.fromARGB(147, 59, 85, 131);
   static Color secondPageIconColor = const Color(0xFFfafafe);
